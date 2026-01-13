@@ -4,7 +4,7 @@ import { onGetUser } from "../../../support/services/getUser";
 import { onFileExtensionUtil } from "../../../support/utils/fileExtensionUtil";
 import { onCommonFunctions } from "../../../support/services/common";
 
-test.describe.only("Get User API business", () => {
+test.describe("Get User API business", () => {
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
     let expectedResults: Record<string, any> = {};
@@ -30,7 +30,6 @@ test.describe.only("Get User API business", () => {
             });
 
             await test.step("Verify Get User by ID API response", async () => {
-                console.log("Response Body: ", response.body);
                 await onCommonFunctions.compareRespMsgWithExpectedFile(
                     response.statusCode,
                     expectedCommon.httpStatus.failedCode.notFound,
@@ -50,7 +49,6 @@ test.describe.only("Get User API business", () => {
             });
 
             await test.step("Verify Get User by ID API response", async () => {
-                console.log("Response Body: ", response.body);
                 await onGetUser.verifyUserResponse(response);
             });
         }
@@ -68,7 +66,6 @@ test.describe.only("Get User API business", () => {
                 });
 
                 await test.step("Verify Get User by ID API response", async () => {
-                    console.log("Response Body: ", response.body);
                     await onCommonFunctions.compareRespMsgWithExpectedFile(
                         response.statusCode,
                         expectedCommon.httpStatus.failedCode.badRequest,

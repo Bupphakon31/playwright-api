@@ -3,7 +3,7 @@ import { test } from "@playwright/test";
 import { onGetUser } from "../../../support/services/getUser";
 import { onFileExtensionUtil } from "../../../support/utils/fileExtensionUtil";
 
-test.describe.only("Get User API business", () => {
+test.describe("Get User API business", () => {
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
 
