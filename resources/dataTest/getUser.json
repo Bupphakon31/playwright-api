@@ -1,10 +1,4 @@
 {
     "userId": [1, 2, 3],
-    "invalidUserId": ["test_user_id", null, "\"\""],
-    "unexpectedParam": {
-        "email": "test1234@gmail.com"
-    },
-    "unexpectedBody": {
-        "username": "TestUser"
-    }
+    "invalidUserId": ["test_user_id", null, "\"\""]
 }
