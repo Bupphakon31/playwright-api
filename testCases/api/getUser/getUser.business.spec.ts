@@ -5,11 +5,11 @@ import { onFileExtensionUtil } from "../../../support/utils/fileExtensionUtil";
 
 test.describe("Get User API business", () => {
     let response: Record<string, any> = {};
-    let dataTest: Record<string, any> = {};
+    // let dataTest: Record<string, any> = {};
 
-    test.beforeAll(async () => {
-        dataTest = await onFileExtensionUtil.readDataFromJson(`./resources/dataTest/getUser.json`);
-    });
+    // test.beforeAll(async () => {
+    //     dataTest = await onFileExtensionUtil.readDataFromJson(`./resources/dataTest/getUser.json`);
+    // });
 
     test("GET: [/api/v1/users] response [success] when found users", { tag: ["@high", "@regression"] }, async () => {
         await test.step("Call Get User API with valid method", async () => {
