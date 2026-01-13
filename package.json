@@ -25,6 +25,9 @@
         "dotenv": "^17.2.3"
     },
     "lint-staged": {
-        "*.{js,ts,json,md}": "prettier --write"
+        "*.{js,ts,json,md}": [
+            "prettier --write",
+            "git add"
+        ]
     }
 }

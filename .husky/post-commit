@@ -1,0 +1,3 @@
+npm run format
+git add .
+echo "Files formatted. Please commit again if changes were made."
