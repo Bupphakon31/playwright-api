@@ -7,7 +7,8 @@
         "test": "playwright test",
         "playwright:api": "npx playwright test --workers=1 testCases/api/",
         "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "format:check": "prettier --check .",
+        "prepare": "husky"
     },
     "keywords": [],
     "author": "",
@@ -16,9 +17,17 @@
     "devDependencies": {
         "@playwright/test": "^1.57.0",
         "@types/node": "^25.0.5",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.2.7",
         "prettier": "^3.7.4"
     },
     "dependencies": {
         "dotenv": "^17.2.3"
+    },
+    "lint-staged": {
+        "*.{js,ts,json,md}": [
+            "prettier --write",
+            "git add"
+        ]
     }
 }
