@@ -1,4 +1,4 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "./configs/.env" });
 
 export const ENV = process.env;

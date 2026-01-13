@@ -1,0 +1,20 @@
+{
+    "apiRespMsg": {
+        "failed": {
+            "invalidUserId": {
+                "message": "Validation failed (numeric string is expected)",
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "internalServerError": {
+                "statusCode": 500,
+                "message": "Internal server error"
+            },
+            "notFoundUserId": {
+                "message": "Cannot POST /api/v1/users/1",
+                "error": "Not Found",
+                "statusCode": 404
+            }
+        }
+    }
+}
