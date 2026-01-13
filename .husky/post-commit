@@ -1,3 +1,7 @@
 npm run format
-git add .
-echo "Files formatted. Please commit again if changes were made."
+git status --porcelain
+if [ -n "$(git status --porcelain)" ]; then
+  echo "Files were formatted. Please review and commit the changes."
+else
+  echo "No formatting changes needed."
+fi

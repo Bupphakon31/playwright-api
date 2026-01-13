@@ -13,11 +13,11 @@ class CommonFunctions {
 
     public async verifyRespStatus(
         actualStatusCode: number,
-        expectedStatusCode: number,
+ expectedStatusCode: number,
         actualSStatusText: string,
         expectedStatusText: string
     ) {
-        expect(actualStatusCode).toBe(expectedStatusCode);
+expect(actualStatusCode).toBe(expectedStatusCode);
         expect(actualSStatusText).toBe(expectedStatusText);
     }
 }
