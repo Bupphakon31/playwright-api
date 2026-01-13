@@ -18,11 +18,7 @@ class GetUser {
         let response: Record<string, any> = isCheckMethod
             ? await contextHTTP.post(path, options)
             : await contextHTTP.get(path, options);
-        response = {
-            statusCode: response.status(),
-            statusText: response.statusText(),
-            body: await response.json(),
-        };
+        response = { statusCode: response.status(), statusText: response.statusText(), body: await response.json() };
 
         await contextHTTP.dispose();
         return response;
