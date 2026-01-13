@@ -8,17 +8,17 @@ class CommonFunctions {
         expectedResult: Record<string, any>
     ) {
         expect(statusCode).toBe(expectedCode);
- expect(actualResult.body).toEqual(expectedResult);
+        expect(actualResult.body).toEqual(expectedResult);
     }
 
     public async verifyRespStatus(
         actualStatusCode: number,
-  expectedStatusCode: number,
+        expectedStatusCode: number,
         actualSStatusText: string,
- expectedStatusText: string
+        expectedStatusText: string
     ) {
-expect(actualStatusCode).toBe(expectedStatusCode);
-expect(actualSStatusText).toBe(expectedStatusText);
+        expect(actualStatusCode).toBe(expectedStatusCode);
+        expect(actualSStatusText).toBe(expectedStatusText);
     }
 }
 
