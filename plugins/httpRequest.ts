@@ -1,8 +1,11 @@
-import { request } from '@playwright/test';
+import { request } from "@playwright/test";
 
 class HttpRequest {
     public async createContextHTTPRequest(options: Record<string, any>) {
-        return await request.newContext({...options, ...{failOnStatusCode: false, ignoreHTTPSErrors: true}});
+        return await request.newContext({
+            ...options,
+            ...{ failOnStatusCode: false, ignoreHTTPSErrors: true },
+        });
     }
 }
 
