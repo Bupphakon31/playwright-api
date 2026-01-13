@@ -1,6 +1,6 @@
 {
     "userId": [1, 2, 3],
-    "invalidUserId": [0, -1, 9999, "abc", "!@#"],
+    "invalidUserId": ["test_user_id", null, "\"\""],
     "unexpectedParam": {
         "email": "test1234@gmail.com"
     },
