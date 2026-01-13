@@ -79,12 +79,15 @@ test.describe("Get User API business", () => {
         }
     );
 
-        test(
+    test(
         "GET: [/api/v1/users/{userId}] response [success] with unexpected query parameters",
         { tag: ["@high", "@functional"] },
         async () => {
             await test.step("Call Get User by ID API with unexpected query parameters", async () => {
-                response = await onGetUser.callGetUser(`${String(ENV.V1_USER)}/${dataTest.userId[0]}`, commonDataTest.unexpectedParam);
+                response = await onGetUser.callGetUser(
+                    `${String(ENV.V1_USER)}/${dataTest.userId[0]}`,
+                    commonDataTest.unexpectedParam
+                );
             });
 
             await test.step("Verify Get User by ID API response", async () => {
@@ -93,12 +96,16 @@ test.describe("Get User API business", () => {
         }
     );
 
-        test(
+    test(
         "GET: [/api/v1/users/{userId}] response [success] with unexpected request body",
         { tag: ["@high", "@functional"] },
         async () => {
             await test.step("Call Get User by ID API with unexpected request body", async () => {
-                response = await onGetUser.callGetUser(`${String(ENV.V1_USER)}/${dataTest.userId[0]}`, undefined, commonDataTest.unexpectedBody);
+                response = await onGetUser.callGetUser(
+                    `${String(ENV.V1_USER)}/${dataTest.userId[0]}`,
+                    undefined,
+                    commonDataTest.unexpectedBody
+                );
             });
 
             await test.step("Verify Get User by ID API response", async () => {
