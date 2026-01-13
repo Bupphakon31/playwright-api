@@ -1,7 +1,8 @@
 npm run format
-git status --porcelain
-if [ -n "$(git status --porcelain)" ]; then
-  echo "Files were formatted. Please review and commit the changes."
+formatted_files=$(git diff --name-only)
+if [ -n "$formatted_files" ]; then
+  echo "Files formatted:"
+  echo "$formatted_files"
 else
-  echo "No formatting changes needed."
+  echo "No files were changed by formatting."
 fi
