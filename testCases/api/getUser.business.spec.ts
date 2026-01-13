@@ -30,7 +30,7 @@ test.describe("Get User API business", () => {
         })
     })
 
-    test.only("GET: [/api/v1/users/{userId}] response [success] when userId is exist",
+    test("GET: [/api/v1/users/{userId}] response [success] when userId is exist",
         { tag: ["@high", "@regression"] }, async () => {
 
         for (let i = 0; i < dataTest.userId.length; i++) {
