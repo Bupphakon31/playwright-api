@@ -7,11 +7,13 @@ import { onFileExtensionUtil } from "../../../support/utils/fileExtensionUtil";
 test.describe("Get User API validation", () => {
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
+    let commonDataTest: Record<string, any> = {};
     let expectedCommon: Record<string, any> = {};
     let expectedResults: Record<string, any> = {};
 
     test.beforeAll(async () => {
         dataTest = await onFileExtensionUtil.readDataFromJson(`./resources/dataTest/getUser.json`);
+        commonDataTest = await onFileExtensionUtil.readDataFromJson(`./resources/dataTest/common.json`);
         expectedCommon = await onFileExtensionUtil.readDataFromJson(`./resources/expectedResults/common.json`);
         expectedResults = await onFileExtensionUtil.readDataFromJson(`./resources/expectedResults/getUser.json`);
     });
@@ -35,11 +37,11 @@ test.describe("Get User API validation", () => {
     });
 
     test(
-        "GET: [/api/v1/users] response [success] when input unexpected query parameters",
+        "GET: [/api/v1/users] response [success] with unexpected query parameters",
         { tag: ["@high", "@functional"] },
         async () => {
             await test.step("Call Get User API with unexpected query parameters", async () => {
-                response = await onGetUser.callGetUser(String(ENV.V1_USER), dataTest.unexpectedParam);
+                response = await onGetUser.callGetUser(String(ENV.V1_USER), commonDataTest.unexpectedParam);
             });
 
             await test.step("Verify Get User API response", async () => {
@@ -49,11 +51,11 @@ test.describe("Get User API validation", () => {
     );
 
     test(
-        "GET: [/api/v1/users] response [success] when input unexpected request body",
+        "GET: [/api/v1/users] response [success] with unexpected request body",
         { tag: ["@high", "@functional"] },
         async () => {
             await test.step("Call Get User API with unexpected request body", async () => {
-                response = await onGetUser.callGetUser(String(ENV.V1_USER), undefined, dataTest.unexpectedBody);
+                response = await onGetUser.callGetUser(String(ENV.V1_USER), undefined, commonDataTest.unexpectedBody);
             });
 
             await test.step("Verify Get User API response", async () => {

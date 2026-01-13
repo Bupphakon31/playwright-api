@@ -7,11 +7,13 @@ import { onCommonFunctions } from "../../../support/services/common";
 test.describe("Get User API business", () => {
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
+    let commonDataTest: Record<string, any> = {};
     let expectedResults: Record<string, any> = {};
     let expectedCommon: Record<string, any> = {};
 
     test.beforeAll(async () => {
         dataTest = await onFileExtensionUtil.readDataFromJson(`./resources/dataTest/getUser.json`);
+        commonDataTest = await onFileExtensionUtil.readDataFromJson(`./resources/dataTest/common.json`);
         expectedCommon = await onFileExtensionUtil.readDataFromJson(`./resources/expectedResults/common.json`);
         expectedResults = await onFileExtensionUtil.readDataFromJson(`./resources/expectedResults/getUser.json`);
     });
@@ -74,6 +76,41 @@ test.describe("Get User API business", () => {
                     );
                 });
             }
+        }
+    );
+
+    test(
+        "GET: [/api/v1/users/{userId}] response [success] with unexpected query parameters",
+        { tag: ["@high", "@functional"] },
+        async () => {
+            await test.step("Call Get User by ID API with unexpected query parameters", async () => {
+                response = await onGetUser.callGetUser(
+                    `${String(ENV.V1_USER)}/${dataTest.userId[0]}`,
+                    commonDataTest.unexpectedParam
+                );
+            });
+
+            await test.step("Verify Get User by ID API response", async () => {
+                await onGetUser.verifyUserResponse(response);
+            });
+        }
+    );
+
+    test(
+        "GET: [/api/v1/users/{userId}] response [success] with unexpected request body",
+        { tag: ["@high", "@functional"] },
+        async () => {
+            await test.step("Call Get User by ID API with unexpected request body", async () => {
+                response = await onGetUser.callGetUser(
+                    `${String(ENV.V1_USER)}/${dataTest.userId[0]}`,
+                    undefined,
+                    commonDataTest.unexpectedBody
+                );
+            });
+
+            await test.step("Verify Get User by ID API response", async () => {
+                await onGetUser.verifyUserResponse(response);
+            });
         }
     );
 });
