@@ -8,7 +8,7 @@ test.describe("Get User API validation", () => {
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
     let expectedCommon: Record<string, any> = {};
-    let expectedResults: Record<string, any> = {};  
+    let expectedResults: Record<string, any> = {};
 
     test.beforeAll(async () => {
         dataTest = await onFileExtensionUtil.readDataFromJson(`./resources/dataTest/getUser.json`);
@@ -16,8 +16,7 @@ test.describe("Get User API validation", () => {
         expectedResults = await onFileExtensionUtil.readDataFromJson(`./resources/expectedResults/getUser.json`);
     });
 
-    test("POST: [/api/v1/users] response [failed] when invalid method", 
-        { tag: ["@high", "@functional"] }, async () => {
+    test("POST: [/api/v1/users] response [failed] when invalid method", { tag: ["@high", "@functional"] }, async () => {
         await test.step("Call Get User API with invalid method", async () => {
             response = await onGetUser.callGetUser(String(ENV.V1_USER), undefined, undefined, true);
         });
@@ -62,5 +61,4 @@ test.describe("Get User API validation", () => {
             });
         }
     );
-
 });

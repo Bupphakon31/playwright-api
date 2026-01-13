@@ -3,7 +3,6 @@ import { onHTTPRequest } from "../../plugins/httpRequest";
 import { ENV } from "../../globalVariables";
 
 class GetUserById {
-
     public async callGetUserById(
         path: string,
         userId: string | any,
@@ -25,7 +24,6 @@ class GetUserById {
         await contextHTTP.dispose();
         return response;
     }
-
 }
 
 export const onGetUserById: GetUserById = new GetUserById();
