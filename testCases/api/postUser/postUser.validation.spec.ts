@@ -333,7 +333,6 @@ test.describe("Post User API business", () => {
         }
     );
 
-
     test(
         "POST: [/api/v1/users] response [failed] when avatar is invalid format",
         { tag: ["@medium", "@functional"] },

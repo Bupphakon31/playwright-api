@@ -11,9 +11,11 @@ API testing framework using Playwright for automated testing.
 ## Dependencies
 
 ### Production
+
 - `dotenv` - Environment variables management
 
 ### Development
+
 - `@playwright/test` - Playwright testing framework
 - `@types/node` - TypeScript types for Node.js
 - `cross-env` - Cross-platform environment variables
@@ -41,21 +43,25 @@ V1_USER_ID=/api/v1/users/{{:userId}}
 ## Running Tests
 
 ### All Tests
+
 ```bash
 npm test
 ```
 
 ### API Tests
+
 ```bash
 npm run playwright:api
 ```
 
 ### Regression Tests
+
 ```bash
 npm run playwright:regression
 ```
 
 ### Custom Workers
+
 ```bash
 # Windows
 set WORKERS=4 && npm run playwright:api
@@ -67,11 +73,13 @@ WORKERS=4 npm run playwright:api
 ## Code Formatting
 
 ### Format All Files
+
 ```bash
 npm run format
 ```
 
 ### Check Formatting
+
 ```bash
 npm run format:check
 ```
