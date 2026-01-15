@@ -1,0 +1,41 @@
+{
+    "invalidEndpoint": "/api/v1/user",
+    "validName": "john doe",
+    "validEmail": "john.doe@gmail.com",
+    "validPassword": "Password1234",
+    "validAvatar": "https://johndoe.com/avatar.jpg",
+    "invalidEmailFormat": "john.gmail.com",
+    "invalidPasswordLength": "123",
+    "invalidPasswordFormat": ["pass@word!", "+@#"],
+    "invalidAvatarFormat": "johndoe-avatar",
+    "requestBody": {
+        "valid": {
+            "name": "{{:name}}",
+            "email": "{{:email}}",
+            "password": "{{:password}}",
+            "avatar": "{{:avatar}}"
+        },
+        "invalid": {
+            "missingNameField": {
+                "email": "{{:email}}",
+                "password": "{{:password}}",
+                "avatar": "{{:avatar}}"
+            },
+            "missingEmailField": {
+                "name": "{{:name}}",
+                "password": "{{:password}}",
+                "avatar": "{{:avatar}}"
+            },
+            "missingPasswordField": {
+                "name": "{{:name}}",
+                "email": "{{:email}}",
+                "avatar": "{{:avatar}}"
+            },
+            "missingAvatarField": {
+                "name": "{{:name}}",
+                "email": "{{:email}}",
+                "password": "{{:password}}"
+            }
+        }
+    }
+}

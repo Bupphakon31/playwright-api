@@ -23,7 +23,7 @@ test.describe("Get User API business", () => {
                 });
 
                 await test.step("Verify Get User API response", async () => {
-                    onGetUser.verifyUserResponse(response);
+                    onGetUser.verifyGetUserResponse(response);
                 });
             }
         }

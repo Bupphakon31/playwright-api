@@ -24,15 +24,28 @@ test.describe("Get User API validation", () => {
         });
 
         await test.step("Verify Get User API response", async () => {
-            //curently the API returns 500 Internal Server Error for invalid method
             await onCommonFunctions.compareRespMsgWithExpectedFile(
                 response.statusCode,
-                expectedCommon.httpStatus.failedCode.internalServerError,
+                expectedCommon.httpStatus.failedCode.notFound,
                 response,
-                expectedResults.apiRespMsg.failed.internalServerError
+                expectedResults.apiRespMsg.failed.invalidMethodUserPath
             );
-            //expcted to be 405 Method Not Allowed
-            //await onCommonFunctions.verifyFailedResponse(response, expectedCommon.httpStatus.failedCode.methodNotAllowed, expectedCommon.apiRespMsg.methodNotAllowed);
+            //expected to be 405 Method Not Allowed
+        });
+    });
+
+    test("GET: [/api/v1/users] response [failed] when invalid path", { tag: ["@high", "@functional"] }, async () => {
+        await test.step("Call GET User API with invalid path", async () => {
+            response = await onGetUser.callGetUser(dataTest.invalidPath);
+        });
+
+        await test.step("Verify Get User API response", async () => {
+            await onCommonFunctions.compareRespMsgWithExpectedFile(
+                response.statusCode,
+                expectedCommon.httpStatus.failedCode.notFound,
+                response,
+                expectedResults.apiRespMsg.failed.invalidPathUser
+            );
         });
     });
 
@@ -45,7 +58,7 @@ test.describe("Get User API validation", () => {
             });
 
             await test.step("Verify Get User API response", async () => {
-                await onGetUser.verifyUserResponse(response);
+                await onGetUser.verifyGetUserResponse(response);
             });
         }
     );
@@ -59,7 +72,7 @@ test.describe("Get User API validation", () => {
             });
 
             await test.step("Verify Get User API response", async () => {
-                await onGetUser.verifyUserResponse(response);
+                await onGetUser.verifyGetUserResponse(response);
             });
         }
     );
