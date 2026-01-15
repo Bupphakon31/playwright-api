@@ -1,0 +1,112 @@
+{
+    "apiRespMsg": {
+        "failed": {
+            "invalidMethodAndPath": {
+                "message": "Cannot DELETE /api/v1/users",
+                "error": "Not Found",
+                "statusCode": 404
+            },
+            "missingFields": {
+                "statusCode": 500,
+                "message": "Internal server error"
+            },
+            "nameIsEmpty": {
+                "message": ["name should not be empty"],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "missingEmailFieldOrEmailIsEmpty": {
+                "message": ["email should not be empty", "email must be an email"],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "invalidEmailFormat": {
+                "message": ["email must be an email"],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "missingPasswordFieldOrPasswordIsEmpty": {
+                "message": [
+                    "password must be longer than or equal to 4 characters",
+                    "password should not be empty",
+                    "password must contain only letters and numbers"
+                ],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "invalidPasswordLength": {
+                "message": ["password must be longer than or equal to 4 characters"],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "invalidPasswordFormat": {
+                "message": ["password must contain only letters and numbers"],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "invalidPasswordFormatAndLength": {
+                "message": [
+                    "password must be longer than or equal to 4 characters",
+                    "password must contain only letters and numbers"
+                ],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "missingAvatarFieldOrAvatarIsEmpty": {
+                "message": ["avatar should not be empty", "avatar must be a URL address"],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "invalidAvatarFormat": {
+                "message": ["avatar must be a URL address"],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "missingEmailAndPasswordFields": {
+                "message": [
+                    "email should not be empty",
+                    "email must be an email",
+                    "password must be longer than or equal to 4 characters",
+                    "password should not be empty",
+                    "password must contain only letters and numbers"
+                ],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "missingEmailAndAvatarFields": {
+                "message": [
+                    "email should not be empty",
+                    "email must be an email",
+                    "avatar should not be empty",
+                    "avatar must be a URL address"
+                ],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "missingPasswordAndAvatarFields": {
+                "message": [
+                    "password must be longer than or equal to 4 characters",
+                    "password should not be empty",
+                    "password must contain only letters and numbers",
+                    "avatar should not be empty",
+                    "avatar must be a URL address"
+                ],
+                "error": "Bad Request",
+                "statusCode": 400
+            },
+            "missingEmailAndPasswordAndAvatarFields": {
+                "message": [
+                    "email should not be empty",
+                    "email must be an email",
+                    "password must be longer than or equal to 4 characters",
+                    "password should not be empty",
+                    "password must contain only letters and numbers",
+                    "avatar should not be empty",
+                    "avatar must be a URL address"
+                ],
+                "error": "Bad Request",
+                "statusCode": 400
+            }
+        }
+    }
+}

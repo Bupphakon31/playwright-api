@@ -1,4 +1,15 @@
 {
+    "headers": {
+        "contentType": {
+            "valid": {
+                "Content-Type": "application/json"
+            },
+            "invalid": {
+                "Content-Type": "text/plain"
+            }
+        }
+    },
+
     "unexpectedParam": {
         "email": "test1234@gmail.com"
     },

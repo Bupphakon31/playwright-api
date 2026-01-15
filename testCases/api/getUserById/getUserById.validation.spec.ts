@@ -43,6 +43,25 @@ test.describe("Get User API business", () => {
     );
 
     test(
+        "GET: [/api/v1/users/{userId}] response [failed] when invalid path",
+        { tag: ["@high", "@functional"] },
+        async () => {
+            await test.step("Call GET User by ID API with invalid path", async () => {
+                response = await onGetUser.callGetUser(`${dataTest.invalidPath}/${dataTest.userId[0]}`);
+            });
+
+            await test.step("Verify Get User by ID API response", async () => {
+                await onCommonFunctions.compareRespMsgWithExpectedFile(
+                    response.statusCode,
+                    expectedCommon.httpStatus.failedCode.notFound,
+                    response,
+                    expectedResults.apiRespMsg.failed.invalidPathUserById
+                );
+            });
+        }
+    );
+
+    test(
         "GET: [/api/v1/users/{userId}] response [success] when not send userId",
         { tag: ["@high", "@functional"] },
         async () => {
@@ -51,7 +70,7 @@ test.describe("Get User API business", () => {
             });
 
             await test.step("Verify Get User by ID API response", async () => {
-                await onGetUser.verifyUserResponse(response);
+                await onGetUser.verifyGetUserResponse(response);
             });
         }
     );
@@ -91,7 +110,7 @@ test.describe("Get User API business", () => {
             });
 
             await test.step("Verify Get User by ID API response", async () => {
-                await onGetUser.verifyUserResponse(response);
+                await onGetUser.verifyGetUserResponse(response);
             });
         }
     );
@@ -109,7 +128,7 @@ test.describe("Get User API business", () => {
             });
 
             await test.step("Verify Get User by ID API response", async () => {
-                await onGetUser.verifyUserResponse(response);
+                await onGetUser.verifyGetUserResponse(response);
             });
         }
     );

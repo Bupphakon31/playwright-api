@@ -11,7 +11,23 @@
                 "message": "Internal server error"
             },
             "notFoundUserId": {
-                "message": "Cannot POST /api/v1/users/1",
+                "message": "Cannot PATCH /api/v1/users/1",
+                "error": "Not Found",
+                "statusCode": 404
+            },
+            "invalidPathUser": {
+                "message": "Cannot GET /api/v1/user",
+                "error": "Not Found",
+                "statusCode": 404
+            },
+            "invalidPathUserById": {
+                "message": "Cannot GET /api/v1/user/1",
+                "error": "Not Found",
+                "statusCode": 404
+            },
+
+            "invalidMethodUserPath": {
+                "message": "Cannot PATCH /api/v1/users",
                 "error": "Not Found",
                 "statusCode": 404
             }

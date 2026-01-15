@@ -16,7 +16,7 @@ class GetUser {
 
         const contextHTTP = await onHTTPRequest.createContextHTTPRequest({ baseURL: String(ENV.ENV_URL) });
         let response: Record<string, any> = isCheckMethod
-            ? await contextHTTP.post(path, options)
+            ? await contextHTTP.patch(path, options)
             : await contextHTTP.get(path, options);
         response = { statusCode: response.status(), statusText: response.statusText(), body: await response.json() };
 
@@ -24,7 +24,7 @@ class GetUser {
         return response;
     }
 
-    public async verifyUserResponse(response: Record<string, any>) {
+    public async verifyGetUserResponse(response: Record<string, any>) {
         expect(response.statusCode).toBe(200);
         if (Array.isArray(response.body)) {
             for (let i = 0; i < response.body.length; i++) {
