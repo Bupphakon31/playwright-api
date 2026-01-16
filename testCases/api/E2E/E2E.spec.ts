@@ -6,8 +6,8 @@ import { onGetProfile } from "../../../support/services/getProfile";
 import { onFileExtensionUtil } from "../../../support/utils/fileExtensionUtil";
 
 test.describe("E2E Flow", () => {
-    test.describe.configure({ mode: 'serial' });
-    
+    test.describe.configure({ mode: "serial" });
+
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
     let commonDataTest: Record<string, any> = {};
