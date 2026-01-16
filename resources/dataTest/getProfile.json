@@ -1,0 +1,5 @@
+{
+    "invalidAccessToken": "1234567890qwertyuiop",
+    "expiredAccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTc2ODU3NDEyNiwiZXhwIjoxNzcwMzAyMTI2fQ.n_HjPFt7tkV6B2m4Jqk2O9NiH_zP7OQ77Ds3GWEwXCP",
+    "invalidPath": "/api/v1/auth/profilee"
+}

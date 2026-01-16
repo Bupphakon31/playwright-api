@@ -1,0 +1,27 @@
+{
+    "requestBody": {
+        "valid": {
+            "email": "{{:email}}",
+            "password": "{{:password}}"
+        },
+        "invalid": {
+            "missingEmailField": {
+                "password": "{{:password}}"
+            },
+            "missingPasswordField": {
+                "email": "{{:email}}"
+            }
+        },
+        "unexpectedBody": {
+            "email": "{{:email}}",
+            "password": "{{:password}}",
+            "tel": "0888888888"
+        }
+    },
+    "unexpectedParam": {
+        "page": 1
+    },
+    "invalidPath": "/api/v1/auth/loginn",
+    "invalidEmail": "john.doe@gmail.com",
+    "invalidPassword": "Test1234"
+}

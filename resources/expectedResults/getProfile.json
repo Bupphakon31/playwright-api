@@ -1,0 +1,16 @@
+{
+    "apiRespMsg": {
+        "failed": {
+            "invalidMethod": {
+                "message": "Cannot PATCH /api/v1/auth/profile",
+                "error": "Not Found",
+                "statusCode": 404
+            },
+            "invalidPath": {
+                "message": "Cannot GET /api/v1/auth/profilee",
+                "error": "Not Found",
+                "statusCode": 404
+            }
+        }
+    }
+}

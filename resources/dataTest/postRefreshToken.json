@@ -1,0 +1,14 @@
+{
+    "invalidPath": "/api/v1/auth/refresh-tokenn",
+    "invalidRefreshTokenFormat": "2456789876543ertfghjkhg4e",
+    "expiredRefreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTc2ODEyMjI4NSwiZXhwIjoxNzY4MTU4Mjg1fQ.1dqymbl_wwlpjm8_wN3CWejd2QnqqD_UV_UDeblm0rU",
+    "requestBody": {
+        "valid": {
+            "refreshToken": "{{:accessToken}}"
+        },
+        "unexpectedBody": {
+            "refreshToken": "{{:accessToken}}",
+            "tel": "0888888888"
+        }
+    }
+}
