@@ -14,11 +14,11 @@
         }
     },
     "apiRespMsg": {
-        "badRequest": "Bad Request",
-        "unauthorized": "Unauthorized",
-        "forbidden": "Forbidden",
-        "notFound": "Not Found",
-        "methodNotAllowed": "Method Not Allowed",
-        "internalServerError": "Internal server error"
+        "failed": {
+            "unauthorized": {
+                "message": "Unauthorized",
+                "statusCode": 401
+            }
+        }
     }
 }

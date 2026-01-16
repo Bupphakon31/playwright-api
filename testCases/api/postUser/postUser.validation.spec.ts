@@ -4,7 +4,7 @@ import { onPostUser } from "../../../support/services/postUser";
 import { onFileExtensionUtil } from "../../../support/utils/fileExtensionUtil";
 import { onCommonFunctions } from "../../../support/services/common";
 
-test.describe("Post User API business", () => {
+test.describe("Post User API validation ", () => {
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
     let commonDataTest: Record<string, any> = {};
@@ -108,6 +108,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.name = "";
+
             await test.step("Call Post User API with name is empty", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -152,9 +153,11 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.email = "";
+
             await test.step("Call Post User API with email is empty", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
+
             await test.step("Verify Post User API response", async () => {
                 await onCommonFunctions.compareRespMsgWithExpectedFile(
                     response.statusCode,
@@ -171,6 +174,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.email = dataTest.invalidEmailFormat;
+
             await test.step("Call Post User API with invalid email format", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -215,6 +219,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.password = "";
+
             await test.step("Call Post User API with empty password     ", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -235,6 +240,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.password = dataTest.invalidPasswordLength;
+
             await test.step("Call Post User API with invalid password format", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -255,6 +261,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.password = dataTest.invalidPasswordFormat[0];
+
             await test.step("Call Post User API with invalid password format", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -275,6 +282,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.password = dataTest.invalidPasswordFormat[1];
+
             await test.step("Call Post User API with invalid password length and format", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -298,6 +306,7 @@ test.describe("Post User API business", () => {
             dataTest.requestBody.invalid.missingAvatarField.email = dataTest.validEmail;
             dataTest.requestBody.invalid.missingAvatarField.password = dataTest.validPassword;
             requestBody = dataTest.requestBody.invalid.missingAvatarField;
+
             await test.step("Call Post User API with missing avatar field", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -318,6 +327,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.avatar = "";
+
             await test.step("Call Post User API with empty avatar", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -338,6 +348,7 @@ test.describe("Post User API business", () => {
         { tag: ["@medium", "@functional"] },
         async () => {
             requestBody.avatar = dataTest.invalidAvatarFormat;
+
             await test.step("Call Post User API with invalid avatar format", async () => {
                 response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
             });
@@ -349,6 +360,45 @@ test.describe("Post User API business", () => {
                     response,
                     expectedResults.apiRespMsg.failed.invalidAvatarFormat
                 );
+            });
+        }
+    );
+
+    test(
+        "POST: [/api/v1/users/{userId}] response [success] when unexpected request body",
+        { tag: ["@high", "@functional"] },
+        async () => {
+            requestBody = dataTest.requestBody.unexpectedBody;
+            requestBody.name = dataTest.validName;
+            requestBody.email = dataTest.validEmail;
+            requestBody.password = dataTest.validPassword;
+            requestBody.avatar = dataTest.validAvatar;
+
+            await test.step("Call Post User API with unexpected request body", async () => {
+                response = await onPostUser.callPostUser(String(ENV.V1_USER), headers, undefined, requestBody);
+            });
+
+            await test.step("Verify Post User API response", async () => {
+                await onPostUser.verifyPostUserResponse(response);
+            });
+        }
+    );
+
+    test(
+        "POST: [/api/v1/users/{userId}] response [success] when unexpected param",
+        { tag: ["@high", "@functional"] },
+        async () => {
+            await test.step("Call Post User API with unexpected param", async () => {
+                response = await onPostUser.callPostUser(
+                    String(ENV.V1_USER),
+                    headers,
+                    dataTest.unexpectedParam,
+                    requestBody
+                );
+            });
+
+            await test.step("Verify Post User API response", async () => {
+                await onPostUser.verifyPostUserResponse(response);
             });
         }
     );

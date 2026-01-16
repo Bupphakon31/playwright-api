@@ -1,5 +1,9 @@
 {
     "headers": {
+        "authAndContentType": {
+            "authorization": "Bearer {{:token}}",
+            "Content-Type": "application/json"
+        },
         "contentType": {
             "valid": {
                 "Content-Type": "application/json"
@@ -9,9 +13,8 @@
             }
         }
     },
-
     "unexpectedParam": {
-        "email": "test1234@gmail.com"
+        "tel": "0888888888"
     },
     "unexpectedBody": {
         "username": "TestUser"

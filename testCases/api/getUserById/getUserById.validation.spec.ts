@@ -4,7 +4,7 @@ import { onGetUser } from "../../../support/services/getUser";
 import { onFileExtensionUtil } from "../../../support/utils/fileExtensionUtil";
 import { onCommonFunctions } from "../../../support/services/common";
 
-test.describe("Get User API business", () => {
+test.describe("Get User API validation", () => {
     let response: Record<string, any> = {};
     let dataTest: Record<string, any> = {};
     let commonDataTest: Record<string, any> = {};

@@ -36,6 +36,16 @@
                 "email": "{{:email}}",
                 "password": "{{:password}}"
             }
+        },
+        "unexpectedBody": {
+            "name": "{{:name}}",
+            "email": "{{:email}}",
+            "password": "{{:password}}",
+            "avatar": "{{:avatar}}",
+            "tel": "0888888888"
         }
+    },
+    "unexpectedParam": {
+        "page": 1
     }
 }
