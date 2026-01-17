@@ -8,6 +8,7 @@
         "playwright:api": "npx playwright test testCases/api/",
         "playwright:regression": "npx playwright test --grep @regression",
         "playwright:functional": "npx playwright test --grep @functional",
+        "playwright:E2E": "npx playwright test --grep @E2E",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
         "prepare": "husky"
@@ -25,7 +26,8 @@
         "prettier": "^3.7.4"
     },
     "dependencies": {
-        "dotenv": "^17.2.3"
+        "dotenv": "^17.2.3",
+        "zod": "^4.3.5"
     },
     "lint-staged": {
         "*.{js,ts,json,md}": [

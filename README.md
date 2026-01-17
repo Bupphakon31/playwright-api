@@ -13,6 +13,7 @@ API testing framework using Playwright for automated testing.
 ### Production
 
 - `dotenv` - Environment variables management
+- `zod` - Schema validation library
 
 ### Development
 
@@ -58,6 +59,18 @@ npm run playwright:api
 
 ```bash
 npm run playwright:regression
+```
+
+### Functional Tests
+
+```bash
+npm run playwright:functional
+```
+
+### E2E Tests
+
+```bash
+npm run playwright:E2E
 ```
 
 ### Custom Workers
@@ -109,6 +122,7 @@ playwright-api/
 - `@high` - High priority tests
 - `@regression` - Regression tests
 - `@functional` - Functional tests
+- `@E2E` - End-to-end tests
 
 ## CI/CD
 
