@@ -55,6 +55,17 @@ jobs:
                     else
                       echo "failed_section=" >> $GITHUB_OUTPUT
                     fi
+                    FLAKY_TESTS=$(jq -r '[.. | objects | select(has("tests")) | select(any(.tests[]; .status == "flaky")) | .title] | unique | map("• " + .) | join("<br>")' test-results.json)
+                    if [ -n "$FLAKY_TESTS" ]; then
+                      {
+                        echo "flaky_section<<DELIM"
+                        printf '<tr><td style="padding:0 28px 20px;"><p style="font-size:12px;font-weight:700;color:#D97706;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Flaky Tests</p><p style="font-size:13px;color:#374151;line-height:1.8;">%s</p></td></tr>' "$FLAKY_TESTS"
+                        printf '\n'
+                        echo "DELIM"
+                      } >> $GITHUB_OUTPUT
+                    else
+                      echo "flaky_section=" >> $GITHUB_OUTPUT
+                    fi
                   else
                     echo "passed=N/A" >> $GITHUB_OUTPUT
                     echo "failed=N/A" >> $GITHUB_OUTPUT
@@ -63,6 +74,7 @@ jobs:
                     echo "total=N/A" >> $GITHUB_OUTPUT
                     echo "duration=N/A" >> $GITHUB_OUTPUT
                     echo "failed_section=" >> $GITHUB_OUTPUT
+                    echo "flaky_section=" >> $GITHUB_OUTPUT
                   fi
             - name: Determine test status
               if: always()
@@ -161,6 +173,8 @@ jobs:
                         </tr>
 
                         ${{ steps.results.outputs.failed_section }}
+
+                        ${{ steps.results.outputs.flaky_section }}
 
                         <tr><td style="padding:0 28px;"><hr style="border:none; border-top:1px solid #E5E7EB;"></td></tr>
 
