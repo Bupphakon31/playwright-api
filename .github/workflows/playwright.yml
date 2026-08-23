@@ -20,6 +20,7 @@ jobs:
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
             - name: Run Playwright tests
+              id: run-tests
               run: npx playwright test
             - uses: actions/upload-artifact@v4
               if: ${{ !cancelled() }}
@@ -27,39 +28,87 @@ jobs:
                   name: playwright-report
                   path: playwright-report/
                   retention-days: 30
-            - name: Send email on success
-              if: success()
+            - name: Determine test status
+              if: always()
+              id: status
+              run: |
+                  if [ "${{ steps.run-tests.outcome }}" == "success" ]; then
+                    echo "color=#16A34A" >> $GITHUB_OUTPUT
+                    echo "icon=&#10003;" >> $GITHUB_OUTPUT
+                    echo "label=All Tests Passed" >> $GITHUB_OUTPUT
+                    echo "subject=✅ Playwright Tests Passed" >> $GITHUB_OUTPUT
+                  else
+                    echo "color=#DC2626" >> $GITHUB_OUTPUT
+                    echo "icon=&#10005;" >> $GITHUB_OUTPUT
+                    echo "label=Tests Failed" >> $GITHUB_OUTPUT
+                    echo "subject=❌ Playwright Tests Failed" >> $GITHUB_OUTPUT
+                  fi
+                  echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+            - name: Send mail
+              if: always()
               uses: dawidd6/action-send-mail@v3
               with:
                   server_address: smtp.gmail.com
                   server_port: 465
                   username: ${{ secrets.GMAIL_USERNAME }}
                   password: ${{ secrets.GMAIL_PASSWORD }}
+                  subject: "${{ steps.status.outputs.subject }} — ${{ github.repository }}"
                   to: ${{ secrets.GMAIL_USERNAME }}
-                  from: ${{ secrets.GMAIL_USERNAME }}
-                  subject: "✅ Playwright Tests Passed — ${{ github.repository }}"
-                  body: |
-                      Playwright tests passed successfully!
+                  from: Playwright CI
+                  content_type: text/html
+                  html_body: |
+                      <!DOCTYPE html>
+                      <html lang="en">
+                      <head>
+                      <meta charset="UTF-8">
+                      <style>
+                        body, table, td { font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+                        body { margin:0; padding:0; background-color:#F3F4F6; }
+                        p { line-height:1.55; margin:0; }
+                        .mono { font-family:'SF Mono','Roboto Mono',Consolas,'Courier New',monospace; }
+                        .chip { display:inline-block; font-size:12px; color:#374151; background-color:#F3F4F6; border-radius:5px; padding:5px 11px; margin:0 6px 6px 0; }
+                      </style>
+                      </head>
+                      <body>
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F3F4F6; padding:32px 0;">
+                      <tr><td align="center">
+                      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="width:560px; max-width:560px; background-color:#FFFFFF; border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,0.08);">
 
-                      Repository : ${{ github.repository }}
-                      Branch     : ${{ github.ref_name }}
-                      Commit     : ${{ github.sha }}
-                      Run URL    : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            - name: Send email on failure
-              if: failure()
-              uses: dawidd6/action-send-mail@v3
-              with:
-                  server_address: smtp.gmail.com
-                  server_port: 465
-                  username: ${{ secrets.GMAIL_USERNAME }}
-                  password: ${{ secrets.GMAIL_PASSWORD }}
-                  to: ${{ secrets.GMAIL_USERNAME }}
-                  from: ${{ secrets.GMAIL_USERNAME }}
-                  subject: "❌ Playwright Tests Failed — ${{ github.repository }}"
-                  body: |
-                      Playwright tests failed. Please check the report.
+                        <tr>
+                          <td style="background-color:${{ steps.status.outputs.color }}; padding:24px 28px;">
+                            <p style="color:#FFFFFF; font-size:21px; font-weight:700;">${{ steps.status.outputs.icon }}&nbsp; ${{ steps.status.outputs.label }}</p>
+                            <p style="color:#FFFFFF; opacity:0.85; font-size:13px; margin-top:4px;">${{ github.repository }}</p>
+                          </td>
+                        </tr>
 
-                      Repository : ${{ github.repository }}
-                      Branch     : ${{ github.ref_name }}
-                      Commit     : ${{ github.sha }}
-                      Run URL    : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+                        <tr>
+                          <td style="padding:24px 28px;">
+                            <p style="font-size:12px; font-weight:700; color:#6B7280; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Run Details</p>
+                            <span class="chip">Branch: ${{ github.ref_name }}</span>
+                            <span class="chip mono">${{ steps.status.outputs.short_sha }}</span>
+                            <span class="chip">${{ github.actor }}</span>
+                          </td>
+                        </tr>
+
+                        <tr><td style="padding:0 28px;"><hr style="border:none; border-top:1px solid #E5E7EB;"></td></tr>
+
+                        <tr>
+                          <td style="padding:24px 28px;">
+                            <a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                               style="display:inline-block; background-color:#1F2937; color:#FFFFFF; font-size:13px; font-weight:600; text-decoration:none; padding:12px 20px; border-radius:7px;">
+                               View Run on GitHub
+                            </a>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td style="padding:16px 28px; background-color:#F9FAFB;">
+                            <p style="font-size:11px; color:#9CA3AF;">Automated notification from GitHub Actions</p>
+                          </td>
+                        </tr>
+
+                      </table>
+                      </td></tr>
+                      </table>
+                      </body>
+                      </html>
