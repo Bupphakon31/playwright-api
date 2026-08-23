@@ -55,7 +55,6 @@ jobs:
                   subject: "${{ steps.status.outputs.subject }} — ${{ github.repository }}"
                   to: ${{ secrets.GMAIL_USERNAME }}
                   from: Playwright CI
-                  content_type: text/html
                   html_body: |
                       <!DOCTYPE html>
                       <html lang="en">
