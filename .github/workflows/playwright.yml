@@ -5,7 +5,7 @@ on:
     pull_request:
         branches: [main, master]
     schedule:
-        - cron: '30 2 * * 1-5'
+        - cron: "30 2 * * 1-5"
 jobs:
     test:
         timeout-minutes: 60
@@ -27,3 +27,39 @@ jobs:
                   name: playwright-report
                   path: playwright-report/
                   retention-days: 30
+            - name: Send email on success
+              if: success()
+              uses: dawidd6/action-send-mail@v3
+              with:
+                  server_address: smtp.gmail.com
+                  server_port: 465
+                  username: ${{ secrets.GMAIL_USERNAME }}
+                  password: ${{ secrets.GMAIL_PASSWORD }}
+                  to: ${{ secrets.GMAIL_USERNAME }}
+                  from: ${{ secrets.GMAIL_USERNAME }}
+                  subject: "✅ Playwright Tests Passed — ${{ github.repository }}"
+                  body: |
+                      Playwright tests passed successfully!
+
+                      Repository : ${{ github.repository }}
+                      Branch     : ${{ github.ref_name }}
+                      Commit     : ${{ github.sha }}
+                      Run URL    : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - name: Send email on failure
+              if: failure()
+              uses: dawidd6/action-send-mail@v3
+              with:
+                  server_address: smtp.gmail.com
+                  server_port: 465
+                  username: ${{ secrets.GMAIL_USERNAME }}
+                  password: ${{ secrets.GMAIL_PASSWORD }}
+                  to: ${{ secrets.GMAIL_USERNAME }}
+                  from: ${{ secrets.GMAIL_USERNAME }}
+                  subject: "❌ Playwright Tests Failed — ${{ github.repository }}"
+                  body: |
+                      Playwright tests failed. Please check the report.
+
+                      Repository : ${{ github.repository }}
+                      Branch     : ${{ github.ref_name }}
+                      Commit     : ${{ github.sha }}
+                      Run URL    : https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
