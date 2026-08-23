@@ -43,7 +43,7 @@ test.describe("Get Profile validation", () => {
             await test.step("Call Get Profile API with invalid method", async () => {
                 response = await onGetProfile.callGetProfile(
                     String(ENV.V1_AUTH_PROFILE),
-                    commonDataTest.headers,
+                    commonDataTest.headers.authAndContentType,
                     undefined,
                     undefined,
                     true
