@@ -38,12 +38,31 @@ jobs:
                     echo "flaky=$(jq '.stats.flaky' test-results.json)" >> $GITHUB_OUTPUT
                     echo "skipped=$(jq '.stats.skipped' test-results.json)" >> $GITHUB_OUTPUT
                     echo "total=$(jq '.stats.expected + .stats.unexpected + .stats.flaky + .stats.skipped' test-results.json)" >> $GITHUB_OUTPUT
+                    DURATION_S=$(jq '(.stats.duration / 1000) | floor' test-results.json)
+                    if [ "$DURATION_S" -ge 60 ]; then
+                      echo "duration=$((DURATION_S / 60))m $((DURATION_S % 60))s" >> $GITHUB_OUTPUT
+                    else
+                      echo "duration=${DURATION_S}s" >> $GITHUB_OUTPUT
+                    fi
+                    FAILED_TESTS=$(jq -r '[.. | objects | select(has("ok") and (.ok == false)) | .title] | unique | map("• " + .) | join("<br>")' test-results.json)
+                    if [ -n "$FAILED_TESTS" ]; then
+                      {
+                        echo "failed_section<<DELIM"
+                        printf '<tr><td style="padding:0 28px 20px;"><p style="font-size:12px;font-weight:700;color:#DC2626;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Failed Tests</p><p style="font-size:13px;color:#374151;line-height:1.8;">%s</p></td></tr>' "$FAILED_TESTS"
+                        printf '\n'
+                        echo "DELIM"
+                      } >> $GITHUB_OUTPUT
+                    else
+                      echo "failed_section=" >> $GITHUB_OUTPUT
+                    fi
                   else
                     echo "passed=N/A" >> $GITHUB_OUTPUT
                     echo "failed=N/A" >> $GITHUB_OUTPUT
                     echo "flaky=N/A" >> $GITHUB_OUTPUT
                     echo "skipped=N/A" >> $GITHUB_OUTPUT
                     echo "total=N/A" >> $GITHUB_OUTPUT
+                    echo "duration=N/A" >> $GITHUB_OUTPUT
+                    echo "failed_section=" >> $GITHUB_OUTPUT
                   fi
             - name: Determine test status
               if: always()
@@ -53,14 +72,19 @@ jobs:
                     echo "color=#16A34A" >> $GITHUB_OUTPUT
                     echo "icon=&#10003;" >> $GITHUB_OUTPUT
                     echo "label=All Tests Passed" >> $GITHUB_OUTPUT
-                    echo "subject=✅ Playwright Tests Passed" >> $GITHUB_OUTPUT
+                    echo "emoji=✅" >> $GITHUB_OUTPUT
                   else
                     echo "color=#DC2626" >> $GITHUB_OUTPUT
                     echo "icon=&#10005;" >> $GITHUB_OUTPUT
                     echo "label=Tests Failed" >> $GITHUB_OUTPUT
-                    echo "subject=❌ Playwright Tests Failed" >> $GITHUB_OUTPUT
+                    echo "emoji=❌" >> $GITHUB_OUTPUT
                   fi
                   echo "short_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+                  case "${{ github.event_name }}" in
+                    schedule) echo "trigger=Scheduled" >> $GITHUB_OUTPUT ;;
+                    pull_request) echo "trigger=Pull Request" >> $GITHUB_OUTPUT ;;
+                    *) echo "trigger=Push" >> $GITHUB_OUTPUT ;;
+                  esac
             - name: Send mail
               if: always()
               uses: dawidd6/action-send-mail@v3
@@ -69,7 +93,7 @@ jobs:
                   server_port: 465
                   username: ${{ secrets.GMAIL_USERNAME }}
                   password: ${{ secrets.GMAIL_PASSWORD }}
-                  subject: "${{ steps.status.outputs.subject }} — ${{ github.repository }}"
+                  subject: "${{ steps.status.outputs.emoji }} [${{ github.event.repository.name }}] ${{ steps.results.outputs.passed }} passed, ${{ steps.results.outputs.failed }} failed | ${{ github.ref_name }}"
                   to: ${{ secrets.GMAIL_USERNAME }}
                   from: Playwright CI
                   html_body: |
@@ -98,11 +122,13 @@ jobs:
                         </tr>
 
                         <tr>
-                          <td style="padding:24px 28px;">
+                          <td style="padding:24px 28px 12px;">
                             <p style="font-size:12px; font-weight:700; color:#6B7280; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Run Details</p>
                             <span class="chip">Branch: ${{ github.ref_name }}</span>
                             <span class="chip mono">${{ steps.status.outputs.short_sha }}</span>
                             <span class="chip">${{ github.actor }}</span>
+                            <span class="chip">${{ steps.status.outputs.trigger }}</span>
+                            <span class="chip">⏱ ${{ steps.results.outputs.duration }}</span>
                           </td>
                         </tr>
 
@@ -133,6 +159,8 @@ jobs:
                             </table>
                           </td>
                         </tr>
+
+                        ${{ steps.results.outputs.failed_section }}
 
                         <tr><td style="padding:0 28px;"><hr style="border:none; border-top:1px solid #E5E7EB;"></td></tr>
 
