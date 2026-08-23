@@ -28,6 +28,23 @@ jobs:
                   name: playwright-report
                   path: playwright-report/
                   retention-days: 30
+            - name: Parse test results
+              if: always()
+              id: results
+              run: |
+                  if [ -f test-results.json ]; then
+                    echo "passed=$(jq '.stats.expected' test-results.json)" >> $GITHUB_OUTPUT
+                    echo "failed=$(jq '.stats.unexpected' test-results.json)" >> $GITHUB_OUTPUT
+                    echo "flaky=$(jq '.stats.flaky' test-results.json)" >> $GITHUB_OUTPUT
+                    echo "skipped=$(jq '.stats.skipped' test-results.json)" >> $GITHUB_OUTPUT
+                    echo "total=$(jq '.stats.expected + .stats.unexpected + .stats.flaky + .stats.skipped' test-results.json)" >> $GITHUB_OUTPUT
+                  else
+                    echo "passed=N/A" >> $GITHUB_OUTPUT
+                    echo "failed=N/A" >> $GITHUB_OUTPUT
+                    echo "flaky=N/A" >> $GITHUB_OUTPUT
+                    echo "skipped=N/A" >> $GITHUB_OUTPUT
+                    echo "total=N/A" >> $GITHUB_OUTPUT
+                  fi
             - name: Determine test status
               if: always()
               id: status
@@ -86,6 +103,34 @@ jobs:
                             <span class="chip">Branch: ${{ github.ref_name }}</span>
                             <span class="chip mono">${{ steps.status.outputs.short_sha }}</span>
                             <span class="chip">${{ github.actor }}</span>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td style="padding:0 28px 24px;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                              <tr>
+                                <td align="center" style="padding:14px 8px; background:#F0FDF4; border-radius:8px; width:23%;">
+                                  <p style="font-size:24px; font-weight:700; color:#16A34A; margin:0;">${{ steps.results.outputs.passed }}</p>
+                                  <p style="font-size:11px; color:#6B7280; margin-top:2px;">Passed</p>
+                                </td>
+                                <td width="3%"></td>
+                                <td align="center" style="padding:14px 8px; background:#FEF2F2; border-radius:8px; width:23%;">
+                                  <p style="font-size:24px; font-weight:700; color:#DC2626; margin:0;">${{ steps.results.outputs.failed }}</p>
+                                  <p style="font-size:11px; color:#6B7280; margin-top:2px;">Failed</p>
+                                </td>
+                                <td width="3%"></td>
+                                <td align="center" style="padding:14px 8px; background:#FFFBEB; border-radius:8px; width:23%;">
+                                  <p style="font-size:24px; font-weight:700; color:#D97706; margin:0;">${{ steps.results.outputs.flaky }}</p>
+                                  <p style="font-size:11px; color:#6B7280; margin-top:2px;">Flaky</p>
+                                </td>
+                                <td width="3%"></td>
+                                <td align="center" style="padding:14px 8px; background:#F9FAFB; border-radius:8px; width:23%;">
+                                  <p style="font-size:24px; font-weight:700; color:#6B7280; margin:0;">${{ steps.results.outputs.skipped }}</p>
+                                  <p style="font-size:11px; color:#6B7280; margin-top:2px;">Skipped</p>
+                                </td>
+                              </tr>
+                            </table>
                           </td>
                         </tr>
 
